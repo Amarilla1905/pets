@@ -1,19 +1,46 @@
-plugins {
-    id 'java'
-}
+//plugin funcionan
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+//reportes
+apply plugin: 'net.serenity-bdd.aggregator'
 
-group 'org.example'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    jcenter()
 }
-
+ext{
+    serenityCoreVersion = "2.4.34"
+    serenityCucumberVersion = "2.4.34"
+    jUnitVersion = "4.13.2"
+    assertJVersion = "3.20.2"
+    slf4JVersion = "1.7.30"
+}
+//Aggregator los repositorios para descargar los pulginds
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath("net.serenity-bdd:serenity-gradle-plugin:2.4.34")
+    }
+}
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    //implementacion no necesita ejecutarse ni una sola vez para implementarse
+    implementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-junit:${serenityCoreVersion}"
+    implementation "net.serenity-bdd:serenity-cucumber6:${serenityCucumberVersion}"
+    //No necesariamente ejecutar, puede aplicarle un debug
+    //compile
+    //Se va a implementar despues de la primera vez que se ejecute el proyecto
+    testImplementation "net.serenity-bdd:serenity-core:${serenityCoreVersion}"
+    testImplementation "net.serenity-bdd:serenity-junit:${serenityCoreVersion}"
+    testImplementation "junit:junit:${jUnitVersion}"
+    testImplementation "org.assertj:assertj-core:${assertJVersion}"
+    testImplementation "org.slf4j:slf4j-simple:${slf4JVersion}"
 }
-
-test {
-    useJUnitPlatform()
-}
+//continua asi falle una tarea de gradle
+gradle.startParameter.continueOnFailure = true
