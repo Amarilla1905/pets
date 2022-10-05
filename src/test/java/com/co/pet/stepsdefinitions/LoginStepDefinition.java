@@ -1,25 +1,40 @@
 package com.co.pet.stepsdefinitions;
 
+import com.co.pet.step.LoginStep;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.thucydides.core.annotations.Steps;
+
+
 
 public class LoginStepDefinition {
+
+    @Steps
+    LoginStep loginStep;
+
     @Given("the user is on the page")
     public void theUserIsOnThePage() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        loginStep.openBrowser();
+        loginStep.selectSignIn();
+
     }
 
     @When("he user enter credentials")
     public void heUserEnterCredentials() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        loginStep.addUser();
+        loginStep.addPassword();
+        loginStep.clickLogin();
+
+
     }
 
-    @Then("successful entry")
+    @Then("^successful entry$")
     public void successfulEntry() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+
+        loginStep.validateMessageLogin();
+
     }
+
+
 }
